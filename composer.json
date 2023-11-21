@@ -1,0 +1,29 @@
+{
+  "name": "tijsdriven/flysystem-alibabacloud-oss",
+  "description": "Flysystem filesystem adapter for Alibabacloud OSS",
+  "type": "library",
+  "version": "0.0.1",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tijs van Raaij",
+      "email": "magento@tijsdriven.dev",
+      "homepage": "https://magento.tijsdriven.dev",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "TijsDriven\\Flysystem\\AlibabaCloudOss\\": "src/",
+      "TijsDriven\\Flysystem\\AlibabaCloudOss\\Test\\": "test/"
+    }
+  },
+  "require": {
+    "league/flysystem": "^2.0.0",
+    "aliyuncs/oss-sdk-php": "~2.4",
+    "php": ">=8.0"
+  },
+  "require-dev": {
+    "league/flysystem-adapter-test-utilities": "^2.0.0"
+  }
+}
