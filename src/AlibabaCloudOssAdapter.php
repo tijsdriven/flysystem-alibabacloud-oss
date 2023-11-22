@@ -70,17 +70,10 @@ class AlibabaCloudOssAdapter implements FilesystemAdapter
      */
     public function write(string $path, string $contents, Config $config): void
     {
-        // @todo: see if there is a better way to do this
-        $visibility = $config->get('visibility');
-        if ($config->get('visibility') == \League\Flysystem\Visibility::PUBLIC) {
-            $visibility = OssClient::OSS_ACL_TYPE_PUBLIC_READ_WRITE;
-        } elseif ($config->get('visibility') == \League\Flysystem\Visibility::PRIVATE) {
-            $visibility = OssClient::OSS_ACL_TYPE_PUBLIC_READ;
-        }
-
         try {
             $options[OssClient::OSS_HEADERS] = [
-                'x-oss-object-acl' => $visibility ?? 'default'
+                // @todo: process file visibility config
+                'x-oss-object-acl' => OssClient::OSS_ACL_TYPE_PUBLIC_READ
             ];
 
             $this->client->putObject($this->bucket, $path, $contents, array_merge_recursive($this->options, $options));
