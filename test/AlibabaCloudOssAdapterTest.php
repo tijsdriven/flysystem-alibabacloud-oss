@@ -63,6 +63,6 @@ class AlibabaCloudOssAdapterTest extends FilesystemAdapterTestCase
             $token->body->credentials->securityToken
         );
 
-        return new AlibabaCloudOssAdapter($client, 'magento-test');
+        return new AlibabaCloudOssAdapter($client, $context['bucket']);
     }
 }
