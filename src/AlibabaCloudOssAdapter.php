@@ -115,7 +115,7 @@ class AlibabaCloudOssAdapter implements FilesystemAdapter
         // @todo: see if there is a better way to do this
         try {
             $file = $this->client->getObject($this->bucket, $path, $this->options);
-            if(!$file) {
+            if (!$file) {
                 throw UnableToReadFile::fromLocation($path);
             }
             $tempName = tempnam(sys_get_temp_dir(), 'alibaba-oss-');
@@ -235,7 +235,7 @@ class AlibabaCloudOssAdapter implements FilesystemAdapter
             throw UnableToRetrieveMetadata::mimeType($path);
         }
 
-        return new FileAttributes($path, null, null, null, $result['content-type']);
+        return new FileAttributes($path, (int)$result['content-length'], null, strtotime($result['last-modified']), $result['content-type']);
     }
 
     /**
@@ -246,11 +246,10 @@ class AlibabaCloudOssAdapter implements FilesystemAdapter
         try {
             $path = trim($path, '/');
             $result = $this->client->getObjectMeta($this->bucket, $path, $this->options);
+            return new FileAttributes($path, (int)$result['content-length'], null, strtotime($result['last-modified']), $result['content-type']);
         } catch (Throwable $exception) {
             throw UnableToRetrieveMetadata::lastModified($path, '', $exception);
         }
-
-        return new FileAttributes($path, null, null, strtotime($result['last-modified']));
     }
 
     /**
@@ -258,14 +257,13 @@ class AlibabaCloudOssAdapter implements FilesystemAdapter
      */
     public function fileSize(string $path): FileAttributes
     {
-
         try {
             $path = trim($path, '/');
             $result = $this->client->getObjectMeta($this->bucket, $path, $this->options);
+            return new FileAttributes($path, (int)$result['content-length'], null, strtotime($result['last-modified']), $result['content-type']);
         } catch (Throwable $exception) {
             throw UnableToRetrieveMetadata::fileSize($path, '', $exception);
         }
-        return new FileAttributes($path, (int)$result['content-length']);
     }
 
     /**
